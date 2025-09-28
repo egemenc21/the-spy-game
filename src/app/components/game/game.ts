@@ -148,7 +148,6 @@ export class Game implements OnInit {
 
       this.gameState.players.push(player);
 
-      // just always update storage after change
       localStorage.setItem(
         "currentPlayers",
         JSON.stringify(this.gameState.players),
@@ -173,7 +172,6 @@ export class Game implements OnInit {
   startGame(): void {
     if (this.gameState.players.length < 3) return;
 
-    // If all words are used, don't start a new round
     if (this.allWordsUsed()) {
       alert(
         `All words in the "${this.selectedSection.name}" section have been used!`,
@@ -189,7 +187,6 @@ export class Game implements OnInit {
     const spyIndex = Math.floor(Math.random() * this.gameState.players.length);
     this.gameState.players[spyIndex].isSpy = true;
 
-    // pick a random unused word
     const unusedWords = this.selectedSection.words.filter((word) =>
       !word.isSelected
     );
