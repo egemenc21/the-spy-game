@@ -1,0 +1,271 @@
+<div class="min-h-screen bg-primary p-4 pt-10">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-8">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 drop-shadow-xl">🕵️ SPY GAME 🕵️</h1>
+      <p class="text-white/90 text-lg md:text-xl font-medium">
+        The ultimate social deduction experience
+      </p>
+    </header>
+
+    <!-- Player Setup Phase -->
+    <section
+      *ngIf="!gameState.gameStarted"
+      class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 mb-8"
+    >
+      <h2
+        class="text-3xl font-bold text-center text-white mb-8 flex items-center justify-center gap-3"
+      >
+        <span class="text-4xl">👥</span>
+        Add Players
+      </h2>
+
+      <!-- Theme Selection -->
+      <div class="max-w-md mx-auto mb-8">
+        <label class="block text-white font-bold text-xl mb-3 text-center"> 🎨 Select Theme </label>
+        <select
+          [(ngModel)]="selectedSection"
+          class="w-full px-6 py-4 rounded-xl bg-white/95 text-gray-800 border-0 focus:ring-4 focus:ring-primary-300 focus:outline-none text-lg font-medium shadow-lg transition-all duration-300"
+        >
+          <option *ngFor="let section of sectionWords" [ngValue]="section">
+            {{ section.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Add Player Form -->
+      <div class="max-w-md mx-auto mb-8">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <input
+              type="text"
+              [(ngModel)]="newPlayerName"
+              placeholder="Enter player name"
+              (keyup.enter)="addPlayer()"
+              class="w-full px-6 py-4 rounded-xl text-center bg-white/95 text-gray-800 placeholder-gray-500 border-0 focus:ring-4 focus:ring-primary-300 focus:outline-none text-lg font-medium shadow-lg transition-all duration-300 focus:scale-105"
+            />
+          </div>
+          <button
+            (click)="addPlayer()"
+            [disabled]="!newPlayerName.trim()"
+            class="bg-tertiary hover:to-primary-700 disabled:gray-400 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 focus:outline-none focus:ring-4 focus:ring-primary-300 shadow-lg min-w-[120px]"
+          >
+            <span class="flex items-center justify-center gap-2"> Add </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Players Display -->
+      <div *ngIf="gameState.players.length > 0" class="mb-8">
+        <h3
+          class="text-xl font-semibold text-white text-center mb-6 flex items-center justify-center gap-2"
+        >
+          <span
+            class="bg-primary-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold"
+          >
+            {{ gameState.players.length }}
+          </span>
+          Players Ready
+        </h3>
+
+        <div class="flex flex-wrap gap-3 justify-center max-w-2xl mx-auto">
+          <div
+            *ngFor="let player of gameState.players; let i = index"
+            class="group bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-sm rounded-2xl px-6 py-3 flex items-center gap-3 border border-white/30 hover:border-white/50 transition-all duration-300 hover:scale-105"
+          >
+            <span class="text-white font-semibold text-lg">{{ player.name }}</span>
+            <button
+              (click)="removePlayer(i)"
+              class="bg-fourth-500 hover:bg-fourth-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-lg font-bold transition-all duration-200 transform hover:scale-110 opacity-70 group-hover:opacity-100"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Start Game Section -->
+      <div class="text-center">
+        <div *ngIf="gameState.players.length >= 3" class="space-y-4">
+          <button
+            (click)="startGame()"
+            class="bg-gradient-to-r from-tertiary-500 to-fourth-500 hover:from-tertiary-600 hover:to-fourth-600 text-white font-bold py-5 px-12 rounded-2xl text-2xl transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-4 focus:ring-tertiary-300 shadow-2xl animate-bounce hover:animate-none"
+          >
+            <span class="flex items-center justify-center gap-3">
+              <span class="text-3xl">🚀</span>
+              START GAME
+              <span class="text-3xl">🎯</span>
+            </span>
+          </button>
+          <p class="text-primary-200 font-medium text-lg">
+            ✅ Ready to play with {{ gameState.players.length }} players!
+          </p>
+        </div>
+
+        <div *ngIf="gameState.players.length < 3" class="text-center">
+          <div
+            class="bg-secondary-500/20 border-2 border-secondary-400/50 rounded-2xl p-6 max-w-md mx-auto"
+          >
+            <span class="text-4xl mb-2 block">⚠️</span>
+            <p class="text-secondary-200 text-lg font-medium mb-2">
+              Need at least 3 players to start
+            </p>
+            <p class="text-secondary-300/80">
+              Add {{ 3 - gameState.players.length }} more player{{
+                3 - gameState.players.length === 1 ? '' : 's'
+              }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game In Progress Phase -->
+    <section
+      *ngIf="gameState.gameStarted"
+      class="bg-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20"
+    >
+      <div class="text-center mb-8">
+        <div
+          class="bg-primary-500/20 border border-primary-400/50 rounded-2xl p-6 max-w-lg mx-auto"
+        >
+          <p class="text-white text-lg font-medium mb-2">📱 Pass the phone around</p>
+          <p class="text-primary-200">
+            Each player should click their name to see their secret role!
+          </p>
+        </div>
+      </div>
+
+      <!-- Players Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+        <button
+          *ngFor="let player of gameState.players"
+          (click)="showPlayerInfo(player)"
+          class="relative group bg-gradient-to-br from-white/20 to-white/5 hover:from-white/30 hover:to-white/10 backdrop-blur-sm border-2 text-white font-bold py-8 px-6 rounded-2xl text-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary-400/40 shadow-lg"
+          [ngClass]="{
+            'border-white/30 hover:border-white/50': !player.hasViewed,
+            'border-primary-400 bg-gradient-to-br from-primary-500/30 to-primary-600/20':
+              player.hasViewed
+          }"
+        >
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-2xl">👤</span>
+            <span class="text-lg">{{ player.name }}</span>
+          </div>
+
+          <!-- Viewed Indicator -->
+          <div
+            *ngIf="player.hasViewed"
+            class="absolute -top-2 -right-2 bg-primary-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl font-bold shadow-lg animate-pulse"
+          >
+            ✓
+          </div>
+
+          <!-- Hover Effect -->
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-primary-400/20 to-secondary-400/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+        </button>
+      </div>
+
+      <!-- Game Status -->
+      <div class="text-center mb-6">
+        <div class="bg-white/10 rounded-2xl p-4 max-w-md mx-auto">
+          <p class="text-white font-medium">
+            Progress: {{ getViewedCount() }} / {{ gameState.players.length }} players viewed
+          </p>
+          <div class="w-full bg-white/20 rounded-full h-3 mt-2">
+            <div
+              class="bg-gradient-to-r from-primary-400 to-secondary-500 h-3 rounded-full transition-all duration-500"
+              [style.width.%]="(getViewedCount() / gameState.players.length) * 100"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Controls -->
+      <div
+        *ngIf="allPlayersViewed()"
+        class="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn"
+      >
+        <button
+          (click)="newRound()"
+          class="bg-gradient-to-r from-secondary-500 to-tertiary-500 hover:from-secondary-600 hover:to-tertiary-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-secondary-300 shadow-lg"
+        >
+          <span class="flex items-center justify-center gap-2">
+            <span class="text-xl">🔄</span>
+            New Round
+          </span>
+        </button>
+        <button
+          (click)="endGame()"
+          class="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-gray-400 shadow-lg"
+        >
+          <span class="flex items-center justify-center gap-2">
+            <span class="text-xl">🏁</span>
+            End Game
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Modal for Player Information -->
+    <div
+      *ngIf="gameState.showModal"
+      class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn"
+      (click)="closeModal()"
+    >
+      <div
+        class="bg-gradient-to-br from-primary-600 via-secondary-600 to-tertiary-700 rounded-3xl p-8 max-w-md w-full shadow-2xl border-2 border-white/30 transform transition-all duration-300"
+        (click)="$event.stopPropagation()"
+      >
+        <!-- Player Name Header -->
+        <div class="text-center mb-8">
+          <div class="bg-white/20 rounded-2xl p-4 mb-4">
+            <h2 class="text-3xl font-bold text-white">
+              {{ gameState.modalPlayer?.name }}
+            </h2>
+          </div>
+        </div>
+
+        <!-- Spy Information -->
+        <div *ngIf="gameState.modalPlayer?.isSpy" class="text-center">
+          <div
+            class="bg-fourth-500/20 border-3 border-fourth-400 rounded-2xl p-8 mb-8 animate-pulse"
+          >
+            <div class="text-6xl mb-4">🕵️</div>
+            <h3 class="text-3xl font-bold text-fourth-300 mb-6">YOU ARE THE SPY!</h3>
+            <div class="space-y-3 text-white/90"></div>
+          </div>
+        </div>
+
+        <!-- Civilian Information -->
+        <div *ngIf="!gameState.modalPlayer?.isSpy" class="text-center">
+          <div class="bg-primary-500/20 border-3 border-primary-400 rounded-2xl p-8 mb-8">
+            <div class="text-6xl mb-4">👥</div>
+            <h3 class="text-2xl font-bold text-primary-300 mb-6">You are NOT the spy</h3>
+
+            <div
+              class="bg-gradient-to-r from-secondary-400/30 to-tertiary-400/30 border-2 border-secondary-400 rounded-xl p-6 mb-6"
+            >
+              <p class="text-white text-lg mb-3 font-medium">{{ selectedSection.modalInfo }}:</p>
+              <h4 class="text-2xl font-bold text-secondary-200 animate-bounce">
+                {{ gameState.currentWord }}
+              </h4>
+            </div>
+
+            <div class="space-y-3 text-white/90"></div>
+          </div>
+        </div>
+
+        <!-- Close Button -->
+        <button
+          (click)="closeModal()"
+          class="w-full bg-gradient-to-r from-primary-500 to-secondary-600 hover:from-primary-600 hover:to-secondary-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary-300 shadow-lg text-lg"
+        >
+          <span class="flex items-center justify-center gap-2"> Okay! </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

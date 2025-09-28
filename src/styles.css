@@ -1,1 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #309898; /* Your primary teal */
+  --color-secondary: #ff9f00; /* Your secondary orange */
+  --color-tertiary: #f4631e; /* Your tertiary orange-red */
+  --color-fourth: #cb0404; /* Your fourth deep red */
+
+  /* Shades for each color */
+  --color-primary-50: #f0fdfb;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #309898;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #134e4a;
+
+  --color-secondary-50: #fffbeb;
+  --color-secondary-100: #fef3c7;
+  --color-secondary-200: #fde68a;
+  --color-secondary-300: #fcd34d;
+  --color-secondary-400: #fbbf24;
+  --color-secondary-500: #ff9f00;
+  --color-secondary-600: #d97706;
+  --color-secondary-700: #b45309;
+  --color-secondary-800: #92400e;
+  --color-secondary-900: #78350f;
+
+  --color-tertiary-50: #fef2f2;
+  --color-tertiary-100: #fee2e2;
+  --color-tertiary-200: #fecaca;
+  --color-tertiary-300: #fca5a5;
+  --color-tertiary-400: #f87171;
+  --color-tertiary-500: #f4631e;
+  --color-tertiary-600: #dc2626;
+  --color-tertiary-700: #b91c1c;
+  --color-tertiary-800: #991b1b;
+  --color-tertiary-900: #7f1d1d;
+
+  --color-fourth-50: #fef2f2;
+  --color-fourth-100: #fee2e2;
+  --color-fourth-200: #fecaca;
+  --color-fourth-300: #fca5a5;
+  --color-fourth-400: #f87171;
+  --color-fourth-500: #cb0404;
+  --color-fourth-600: #b91c1c;
+  --color-fourth-700: #991b1b;
+  --color-fourth-800: #7f1d1d;
+  --color-fourth-900: #5f1d1d;
+
+  /* Custom gradients */
+  --gradient-primary: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 50%,
+    var(--color-tertiary) 100%
+  );
+  --gradient-secondary: linear-gradient(
+    135deg,
+    var(--color-secondary) 0%,
+    var(--color-tertiary) 50%,
+    var(--color-fourth) 100%
+  );
+  --gradient-game: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-400) 25%,
+    var(--color-secondary) 75%,
+    var(--color-tertiary) 100%
+  );
+}
