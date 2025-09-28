@@ -43,11 +43,15 @@ export class Game implements OnInit {
     modalPlayer: null,
   };
 
+  selectedLanguage: string = "en";
+
+  // Updated English Word List
   sectionWords: SectionWords[] = [
     {
-      name: "Places",
+      name: "Locations",
       modalInfo: "📍 Your Location",
       words: [
+        // Original Words
         { name: "Hospital" },
         { name: "School" },
         { name: "Beach" },
@@ -76,12 +80,29 @@ export class Game implements OnInit {
         { name: "Barber Shop" },
         { name: "Gas Station" },
         { name: "Train Station" },
+        // New Sophisticated Words
+        { name: "Observatory" },
+        { name: "Embassy" },
+        { name: "Conservatory" },
+        { name: "Foundry" },
+        { name: "Amphitheater" },
+        { name: "Cathedral" },
+        { name: "Laboratory" },
+        { name: "Sanctuary" },
+        { name: "Vineyard" },
+        { name: "Atelier" },
+        { name: "Penitentiary" },
+        { name: "Bazaar" },
+        { name: "Lighthouse" },
+        { name: "Quarry" },
+        { name: "Bunker" },
       ],
     },
     {
-      name: "Famous People",
-      modalInfo: "Your Famous Person",
+      name: "Notable Figures",
+      modalInfo: "Your Notable Figure",
       words: [
+        // Original Words
         { name: "Albert Einstein" },
         { name: "Leonardo da Vinci" },
         { name: "Elon Musk" },
@@ -92,17 +113,29 @@ export class Game implements OnInit {
         { name: "Taylor Swift" },
         { name: "Cristiano Ronaldo" },
         { name: "Michael Jackson" },
-        { name: "Messi" },
+        { name: "Lionel Messi" }, // Corrected name
         { name: "Serena Williams" },
         { name: "Barack Obama" },
         { name: "Marilyn Monroe" },
         { name: "Cleopatra" },
+        // New Sophisticated Words
+        { name: "Marie Curie" },
+        { name: "Nikola Tesla" },
+        { name: "Vincent van Gogh" },
+        { name: "William Shakespeare" },
+        { name: "Socrates" },
+        { name: "Galileo Galilei" },
+        { name: "Martin Luther King Jr." },
+        { name: "Frida Kahlo" },
+        { name: "Nikolaus Copernicus" },
+        { name: "Amelia Earhart" },
       ],
     },
     {
-      name: "Objects",
-      modalInfo: "Your object",
+      name: "Artifacts & Implements",
+      modalInfo: "Your Object",
       words: [
+        // Original Words
         { name: "Laptop" },
         { name: "Bicycle" },
         { name: "Smartphone" },
@@ -118,6 +151,140 @@ export class Game implements OnInit {
         { name: "Book" },
         { name: "Chair" },
         { name: "Table" },
+        // New Sophisticated Words
+        { name: "Abacus" },
+        { name: "Gramophone" },
+        { name: "Quill" },
+        { name: "Telescope" },
+        { name: "Microscope" },
+        { name: "Scythe" },
+        { name: "Anvil" },
+        { name: "Chalice" },
+        { name: "Loom" },
+        { name: "Sundial" },
+        { name: "Metronome" },
+        { name: "Harpsichord" },
+        { name: "Pocket Watch" },
+      ],
+    },
+  ];
+
+  // Turkish Word List for Localization
+  sectionWords_tr: SectionWords[] = [
+    {
+      name: "Mekanlar",
+      modalInfo: "📍 Konumun",
+      words: [
+        // Orijinal Kelimeler
+        { name: "Hastane" },
+        { name: "Okul" },
+        { name: "Plaj" },
+        { name: "Restoran" },
+        { name: "Havaalanı" },
+        { name: "Kütüphane" },
+        { name: "Spor Salonu" },
+        { name: "Park" },
+        { name: "Sinema" },
+        { name: "Hayvanat Bahçesi" },
+        { name: "Müze" },
+        { name: "AVM" },
+        { name: "Ofis" },
+        { name: "Mutfak" },
+        { name: "Garaj" },
+        { name: "Bahçe" },
+        { name: "Banyo" },
+        { name: "Yatak Odası" },
+        { name: "Otel" },
+        { name: "Banka" },
+        { name: "Karakol" },
+        { name: "İtfaiye İstasyonu" },
+        { name: "Süpermarket" },
+        { name: "Eczane" },
+        { name: "Kafe" },
+        { name: "Berber Dükkanı" },
+        { name: "Benzin İstasyonu" },
+        { name: "Tren İstasyonu" },
+        { name: "Gözlemevi" },
+        { name: "Büyükelçilik" },
+        { name: "Konservatuvar" },
+        { name: "Dökümhane" },
+        { name: "Amfitiyatro" },
+        { name: "Katedral" },
+        { name: "Laboratuvar" },
+        { name: "Koruma Alanı" },
+        { name: "Üzüm Bağı" },
+        { name: "Atölye" },
+        { name: "Cezaevi" },
+        { name: "Çarşı" },
+        { name: "Deniz Feneri" },
+        { name: "Taş Ocağı" },
+        { name: "Sığınak" },
+      ],
+    },
+    {
+      name: "Ünliler",
+      modalInfo: "Senin ünlün",
+      words: [
+        // Orijinal İsimler
+        { name: "Albert Einstein" },
+        { name: "Leonardo da Vinci" },
+        { name: "Elon Musk" },
+        { name: "Oprah Winfrey" },
+        { name: "Nelson Mandela" },
+        { name: "Steve Jobs" },
+        { name: "Bill Gates" },
+        { name: "Taylor Swift" },
+        { name: "Cristiano Ronaldo" },
+        { name: "Michael Jackson" },
+        { name: "Lionel Messi" },
+        { name: "Serena Williams" },
+        { name: "Barack Obama" },
+        { name: "Marilyn Monroe" },
+        { name: "Kleopatra" },
+        // Yeni İsimler
+        { name: "Marie Curie" },
+        { name: "Nikola Tesla" },
+        { name: "Vincent van Gogh" },
+        { name: "William Shakespeare" },
+        { name: "Sokrates" },
+        { name: "Galileo Galilei" },
+        { name: "Martin Luther King Jr." },
+        { name: "Frida Kahlo" },
+        { name: "Nikolas Kopernik" },
+      ],
+    },
+    {
+      name: "Eşyalar & Aletler",
+      modalInfo: "Senin Nesnen",
+      words: [
+        // Orijinal Nesneler
+        { name: "Dizüstü Bilgisayar" },
+        { name: "Bisiklet" },
+        { name: "Akıllı Telefon" },
+        { name: "Sırt Çantası" },
+        { name: "Kamera" },
+        { name: "Piyano" },
+        { name: "Araba" },
+        { name: "Gözlük" },
+        { name: "Şemsiye" },
+        { name: "Mikrodalga" },
+        { name: "Şişe" },
+        { name: "Kol Saati" },
+        { name: "Kitap" },
+        { name: "Sandalye" },
+        { name: "Masa" },
+        // Yeni Nesneler
+        { name: "Abaküs" },
+        { name: "Gramofon" },
+        { name: "Teleskop" },
+        { name: "Mikroskop" },
+        { name: "Tırpan" },
+        { name: "Örs" },
+        { name: "Kadeh" },
+        { name: "Dokuma Tezgahı" },
+        { name: "Güneş Saati" },
+        { name: "Metronom" },
+        { name: "Cep Saati" },
       ],
     },
   ];
@@ -125,6 +292,9 @@ export class Game implements OnInit {
   selectedSection: SectionWords = this.sectionWords.find((s) =>
     s.name = "Places"
   )!;
+
+  activeSectionWords: SectionWords[] = this.sectionWords;
+  languages: string[] = ["en", "tr"];
 
   ngOnInit(): void {
     if (
@@ -136,6 +306,16 @@ export class Game implements OnInit {
         localStorage.getItem("currentPlayers") as string,
       );
     }
+  }
+
+  setLanguage(): void {
+    console.log(this.selectedLanguage);
+    if (this.selectedLanguage === "tr") {
+      this.activeSectionWords = this.sectionWords_tr;
+    } else {
+      this.activeSectionWords = this.sectionWords;
+    }
+    this.selectedSection = this.activeSectionWords[0];
   }
 
   addPlayer(): void {
