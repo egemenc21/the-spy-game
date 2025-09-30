@@ -222,7 +222,7 @@ export class Game implements OnInit {
       ],
     },
     {
-      name: "Ünliler",
+      name: "Ünlüler",
       modalInfo: "Senin ünlün",
       words: [
         // Orijinal İsimler
